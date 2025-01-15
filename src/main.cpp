@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <boost/version.hpp>
+#include "HashTable.hpp"
 
 int main(int, char**){
 
