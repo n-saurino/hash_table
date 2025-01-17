@@ -1,65 +1,10 @@
-# C++ Project Template
+Problem:
+Implement a hash table from scratch with the following functionality:
+ * void insert(const std::string& key, int value): Insert a key-value pair into the hash table.
+ * bool find(const std::string& key): Return true if the key exists, otherwise false.
+ * void erase(const std::string& key): Remove the key-value pair if it exists.
 
-This repository serves as a template for new projects. Click the `Use this template` button above to create a new repository based on this template for your # Project Template
+Constraints:
+ * Handle collisions using separate chaining.
+ * Resize the hash table dynamically when the load factor exceeds 0.75.
 
-This repository serves as a template for new projects. Click the `Use this template` button above to create a new repository based on this template.
-
-## Features
-
-- CMake
-- Ninja
-- VSCode debugging configured
-
-## Getting Started
-
-1. Clone your new repository:
-    ```bash
-    git clone https://github.com/yourusername/your-new-repo.git
-    cd your-new-repo
-    ```
-
-2. Install dependencies:
-    ```bash
-    # Example for a Node.js project
-    npm install
-    ```
-
-3. Run the project:
-    ```bash
-    # Example for a Node.js project
-    npm start
-    ```
-
-## Contributing
-
-Contributions are welcome! Please see the [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## Features
-
-- Feature 1
-- Feature 2
-- Feature 3
-
-## Getting Started
-
-1. Clone your new repository:
-    ```bash
-    git clone https://github.com/yourusername/your-new-repo.git
-    cd your-new-repo
-    ```
-
-2. Install dependencies:
-    ```bash
-    # Example for a Node.js project
-    npm install
-    ```
-
-3. Run the project:
-    ```bash
-    # Example for a Node.js project
-    npm start
-    ```
-
-## Contributing
-
-Contributions are welcome! Please see the [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
