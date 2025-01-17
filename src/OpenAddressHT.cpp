@@ -15,19 +15,24 @@ bool OpenAddressHT::insert(const std::string& key, int val){
 
     // then try to insert it at the hashed index
     // if not, run a linear probe until a tombstone or a open index is found
-    while(map_[hash_val].first != "__EMPTY__" || 
-          map_[hash_val].first == "__TOMBSTONE__"){
+    while(map_[hash_val].first != "__EMPTY__" && 
+          map_[hash_val].first != "__TOMBSTONE__"){
+            if(map_[hash_val].first == key){
+                map_[hash_val].second = val;
+                return true;
+            }
             hash_val = (hash_val + 1) % capacity_;
     }
-    
+
     map_[hash_val] = {key, val};
     size_++;
     
     // handle rehash if load factor > .75
     if(loadfactor() > Constants::LOAD_FACTOR){
         // RESIZE and REHASH
+        resizeandrehash();
     }
-    return false;
+    return true;
 }
 
 bool OpenAddressHT::erase(const std::string& key){
@@ -59,7 +64,7 @@ int OpenAddressHT::hash(const std::string& key){
     int hash_val{0};
     long long p_pow{1};
     for(auto c : key){
-       hash_val = (hash_val + (c - 'a' + 1) * p_pow) % capacity_;
+       hash_val = (hash_val + (c - '0' + 1) * p_pow) % capacity_;
        p_pow = (p_pow * p) % capacity_; 
     } 
     return hash_val;
@@ -72,7 +77,7 @@ double OpenAddressHT::loadfactor() const{
 void OpenAddressHT::resizeandrehash(){
     capacity_ *= 2;
     std::vector<std::pair<std::string, int>> new_map(capacity_, 
-                                                     {"__EMPTY", 0});
+                                                     {"__EMPTY__", 0});
     rehash(new_map);
 }
 
