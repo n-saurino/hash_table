@@ -16,7 +16,7 @@ void HashTable::Rehash(std::vector<std::vector
                        <std::pair<std::string,int>>>& new_map){
     for(auto& bucket : map_){
         for(auto& kv_pair : bucket){
-            long new_hash{Hash(kv_pair.first)};
+            long new_hash{hash(kv_pair.first)};
             new_map[new_hash].push_back({kv_pair.first, kv_pair.second});
         } 
     }
@@ -25,7 +25,7 @@ void HashTable::Rehash(std::vector<std::vector
 }
 
 // Print the hash table (for debugging)
-void HashTable::Print() const {
+void HashTable::print() const {
     for (size_t i = 0; i < capacity_; ++i) {
         std::cout << "Bucket " << i << ": ";
         for (const auto& [key, value] : map_[i]) {
@@ -41,7 +41,7 @@ void HashTable::ResizeAndRehash(){
     Rehash(new_map);
 }
 
-long HashTable::Hash(const std::string& key){
+long HashTable::hash(const std::string& key){
     // pulled a hashing function from the internet
 	long hashVal = 0;
     for(auto c : key){
@@ -55,7 +55,7 @@ long HashTable::Hash(const std::string& key){
 
 void HashTable::insert(const std::string& key, int value){
     // get hash value of key
-    long hash_val{Hash(key)};
+    long hash_val{hash(key)};
     
     // search for duplicate key to replace
     auto idx{find(key)};
@@ -81,7 +81,7 @@ auto HashTable::find(const std::string& key) -> std::vector<
                                                std::pair<std::string,int>>
                                                ::iterator{
     // get hash value of key
-    long hash_val{Hash(key)};
+    long hash_val{hash(key)};
 
     for(auto it = map_[hash_val].begin(); it != map_[hash_val].end(); ++it){
         // will this make a copy of the pair instead of modifying the reference?
@@ -95,7 +95,7 @@ auto HashTable::find(const std::string& key) -> std::vector<
 }
 
 void HashTable::erase(const std::string& key){
-   long hash_val = Hash(key);
+   long hash_val = hash(key);
 
     std::cout << "Erasing key: " << key << " from bucket " << hash_val << "\n";
     std::cout << "Bucket contents before erase: ";

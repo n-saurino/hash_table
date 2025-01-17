@@ -33,12 +33,12 @@ auto find(const std::string& key) -> std::vector<std::pair<std::string,int>>
                                      ::iterator;
 void erase(const std::string& key);
 std::vector<std::vector<std::pair<std::string,int>>> map_;
-long Hash(const std::string& key);
+long hash(const std::string& key);
 double LoadFactor();
 void ResizeAndRehash();
 void Rehash(std::vector<std::vector
             <std::pair<std::string,int>>>& new_map);
-void Print() const;
+void print() const;
 int capacity_{};
 int size_{};
 
