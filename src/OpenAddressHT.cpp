@@ -1,4 +1,8 @@
 #include "OpenAddressHT.hpp"
+/* 
+JUST REALIZED THE OPENADDRESSHT ISN'T HANDLING TOMBSTONES PROPERLY!!
+NEED TO REVISE THIS SOLUTION!
+*/
 
 OpenAddressHT::OpenAddressHT(): capacity_{100}, size_{0}, map_(100, 
                                 {"__EMPTY__", 0}) {
