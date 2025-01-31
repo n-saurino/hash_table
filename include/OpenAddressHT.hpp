@@ -20,7 +20,7 @@ public:
     void rehash(std::vector<std::pair<std::string, int>>& new_map);
     
     std::vector<std::pair<std::string, int>> map_; 
-    int capacity_{100};
+    int capacity_{4};
     int size_{0}; 
 
 private:

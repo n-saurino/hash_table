@@ -4,9 +4,8 @@ JUST REALIZED THE OPENADDRESSHT ISN'T HANDLING TOMBSTONES PROPERLY!!
 NEED TO REVISE THIS SOLUTION!
 */
 
-OpenAddressHT::OpenAddressHT(): capacity_{100}, size_{0}, map_(100, 
-                                {"__EMPTY__", 0}) {
-
+OpenAddressHT::OpenAddressHT() : capacity_{4}, size_{0} {
+    map_.resize(capacity_, {"__EMPTY__", 0});
 }
 
 OpenAddressHT::~OpenAddressHT(){
@@ -18,7 +17,7 @@ bool OpenAddressHT::insert(const std::string& key, int val){
     int hash_val{hash(key)};
     int original_hash_val{hash_val};
     int tombstone_idx{-1};
-
+    
     // then try to insert it at the hashed index
     // if not, run a linear probe until a tombstone or a open index is found
     while(map_[hash_val].first != "__EMPTY__"){
@@ -110,11 +109,11 @@ void OpenAddressHT::rehash(std::vector<std::pair<std::string, int>>& new_map){
         // don't want to hash a delimiter string
         if(key != "__EMPTY__" && key != "__TOMBSTONE__"){
             int hash_val{hash(key)};
-            while(map_[hash_val].first != "__EMPTY__"){
+            while(new_map[hash_val].first != "__EMPTY__"){
                 hash_val = (hash_val + 1) % capacity_;
             }
             new_map[hash_val] = {key, val};
         }
-        map_ = std::move(new_map);
     }
+    map_ = std::move(new_map);
 }

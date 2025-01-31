@@ -3,7 +3,7 @@
 
 class OpenAddressHTTest : public ::testing::Test {
 protected:
-    OpenAddressHT ht;
+    OpenAddressHT ht{};
 };
 
 // **Test Case 1: Insert and Find**
@@ -12,10 +12,17 @@ TEST_F(OpenAddressHTTest, InsertAndFind) {
     EXPECT_EQ(ht.insert("banana", 20), true);
     EXPECT_EQ(ht.insert("cherry", 30), true);
 
-    EXPECT_EQ(ht.find("apple"), ht.hash("apple") % ht.capacity_);
-    EXPECT_EQ(ht.find("banana"), ht.hash("banana") % ht.capacity_);
-    EXPECT_EQ(ht.find("cherry"), ht.hash("cherry") % ht.capacity_);
-    EXPECT_EQ(ht.find("grape"), -1); // Not found
+    int appleIdx = ht.find("apple");
+    int bananaIdx = ht.find("banana");
+    int cherryIdx = ht.find("cherry");
+
+    // Ensure the keys are found somewhere in the table
+    EXPECT_NE(appleIdx, -1);
+    EXPECT_NE(bananaIdx, -1);
+    EXPECT_NE(cherryIdx, -1);
+
+    // Ensure "grape" is not found
+    EXPECT_EQ(ht.find("grape"), -1);
 }
 
 // **Test Case 2: Insert Duplicate Key (Update Value)**
