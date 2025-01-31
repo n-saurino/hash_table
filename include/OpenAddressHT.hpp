@@ -19,9 +19,14 @@ public:
     void resizeandrehash();
     void rehash(std::vector<std::pair<std::string, int>>& new_map);
     
-private:
     std::vector<std::pair<std::string, int>> map_; 
     int capacity_{100};
     int size_{0}; 
+
+private:
+    // got lazy for testing
+    // std::vector<std::pair<std::string, int>> map_; 
+    // int capacity_{100};
+    // int size_{0}; 
     
 };

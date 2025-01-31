@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Debug main",
-            "type": "lldb",
+            "type": "cppdbg", // switch to lldb if executing on mac with clang
             "request": "launch",
             "program": "${workspaceFolder}/build/main", // Replace with your actual executable path
             "args": [], // Add any arguments your program needs
@@ -12,7 +12,7 @@
             "preLaunchTask": "CMake: build",
             "environment": [],
             "externalConsole": false,
-            "MIMode": "lldb",
+            "MIMode": "gdb", // switch to lldb if executing on mac with clang
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",

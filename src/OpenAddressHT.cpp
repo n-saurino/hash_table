@@ -16,16 +16,28 @@ OpenAddressHT::~OpenAddressHT(){
 bool OpenAddressHT::insert(const std::string& key, int val){
     // hash the key
     int hash_val{hash(key)};
+    int original_hash_val{hash_val};
+    int tombstone_idx{-1};
 
     // then try to insert it at the hashed index
     // if not, run a linear probe until a tombstone or a open index is found
-    while(map_[hash_val].first != "__EMPTY__" && 
-          map_[hash_val].first != "__TOMBSTONE__"){
-            if(map_[hash_val].first == key){
-                map_[hash_val].second = val;
-                return true;
-            }
-            hash_val = (hash_val + 1) % capacity_;
+    while(map_[hash_val].first != "__EMPTY__"){
+        if(map_[hash_val].first == key){
+            map_[hash_val].second = val;
+            return true;
+        }
+  
+        if(map_[hash_val].first == "__TOMBSTONE__" && tombstone_idx == -1){
+            tombstone_idx = hash_val;
+        }
+
+        hash_val = (hash_val + 1) % capacity_;
+        
+        if(hash_val == original_hash_val) break;
+    }
+
+    if(tombstone_idx > -1){
+       hash_val = tombstone_idx; 
     }
 
     map_[hash_val] = {key, val};
@@ -104,4 +116,5 @@ void OpenAddressHT::rehash(std::vector<std::pair<std::string, int>>& new_map){
             new_map[hash_val] = {key, val};
         }
         map_ = std::move(new_map);
+    }
 }
