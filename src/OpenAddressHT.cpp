@@ -42,7 +42,7 @@ bool OpenAddressHT::insert(const std::string& key, int val){
 bool OpenAddressHT::erase(const std::string& key){
     int idx{find(key)};
     if(idx != -1){
-        map_[idx].first = "__EMPTY__";
+        map_[idx].first = "__TOMBSTONE__";
         size_--;
         return true;
     }
@@ -53,11 +53,18 @@ bool OpenAddressHT::erase(const std::string& key){
 int OpenAddressHT::find(const std::string& key){
     int hash_val{hash(key)};
     
+    // need to keep track of the original hash value so we can confirm
+    // we did a full loop through the map_
+    int original_hash = hash_val;
+    
     while(map_[hash_val].first != "__EMPTY__"){
         if(map_[hash_val].first == key){
             return hash_val;
         }
         hash_val = (hash_val + 1) % capacity_;
+
+        // break condition in case we end up looping through a full hash_table
+        if(hash_val == original_hash) break;
     }
 
     return -1;    
@@ -88,12 +95,13 @@ void OpenAddressHT::resizeandrehash(){
 void OpenAddressHT::rehash(std::vector<std::pair<std::string, int>>& new_map){
 
     for(const auto& [key, val] : map_){
-        int hash_val{hash(key)};
-        while(map_[hash_val].first != "__EMPTY__" || 
-              map_[hash_val].first == "__TOMBSTONE__"){
-            hash_val = (hash_val + 1) % capacity_;
+        // don't want to hash a delimiter string
+        if(key != "__EMPTY__" && key != "__TOMBSTONE__"){
+            int hash_val{hash(key)};
+            while(map_[hash_val].first != "__EMPTY__"){
+                hash_val = (hash_val + 1) % capacity_;
+            }
+            new_map[hash_val] = {key, val};
         }
-        new_map[hash_val] = {key, val};  
-    }
-    map_ = std::move(new_map);
+        map_ = std::move(new_map);
 }
